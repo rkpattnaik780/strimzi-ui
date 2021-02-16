@@ -172,7 +172,7 @@ export interface AdvancedTopic2 {
 
 export interface TopicContextProp {
   /** Topic context store object */
-  store: AdvancedTopic;
+  store: AdvancedTopic2;
   /** Method to update store data */
   updateStore: (name: string, value: string | boolean | number) => void;
 }

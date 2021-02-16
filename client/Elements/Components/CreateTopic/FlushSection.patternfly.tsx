@@ -10,6 +10,7 @@ import { kebabToCamel } from './utils';
 import { SizeTimeFormGroup } from '../Common/SizeTimeFormGroup/SizeTimeFormGroup.patternfly';
 import { TopicContext } from 'Contexts/Topic';
 import { useTranslation } from 'react-i18next';
+import { kebabToDotSeparated } from './CleanupSection.patternfly';
 
 export const FlushSection: React.FC = () => {
   const { store, updateStore } = React.useContext(TopicContext);
@@ -20,19 +21,19 @@ export const FlushSection: React.FC = () => {
     event: React.FormEvent<HTMLInputElement>
   ) => {
     const { name: fieldName, value } = event.currentTarget;
-    updateStore(fieldName, value);
+    updateStore(kebabToDotSeparated(fieldName), Number(value));
   };
 
   const handleTouchSpinPlus = (event) => {
     const { name } = event.currentTarget;
-    const fieldName = kebabToCamel(name);
-    updateStore(fieldName, store[fieldName] + 1);
+    const fieldName = kebabToDotSeparated(name);
+    updateStore(fieldName, Number(store[fieldName]) + 1);
   };
 
   const handleTouchSpinMinus = (event) => {
     const { name } = event.currentTarget;
-    const fieldName = kebabToCamel(name);
-    updateStore(fieldName, store[fieldName] - 1);
+    const fieldName = kebabToDotSeparated(name);
+    updateStore(fieldName, Number(store[fieldName]) - 1);
   };
 
   const onDropdownChange = (value: string, event) => {
@@ -59,13 +60,13 @@ export const FlushSection: React.FC = () => {
           buttonAriaLabel='More info for flush interval messages field'
         >
           <SizeTimeFormGroup
-            inputName='interval-messages'
+            inputName='flush-messages'
             onChange={handleTouchSpinInputChange}
             onPlus={handleTouchSpinPlus}
             onMinus={handleTouchSpinMinus}
-            value={store.intervalMessages}
-            plusBtnProps={{ name: 'interval-messages' }}
-            minusBtnProps={{ name: 'interval-messages' }}
+            value={Number(store['flush.messages'])}
+            plusBtnProps={{ name: 'flush-messages' }}
+            minusBtnProps={{ name: 'flush-messages' }}
             id='interval-messages-unit-dropdown'
             toggleId='interval-messages-unit-dropdowntoggle'
             name='interval-messages-unit'
@@ -83,13 +84,13 @@ export const FlushSection: React.FC = () => {
           buttonAriaLabel='More info for flush interval time field'
         >
           <SizeTimeFormGroup
-            inputName='interval-time'
+            inputName='flush-ms'
             onChange={handleTouchSpinInputChange}
             onPlus={handleTouchSpinPlus}
             onMinus={handleTouchSpinMinus}
-            value={store.intervalTime}
-            plusBtnProps={{ name: 'interval-time' }}
-            minusBtnProps={{ name: 'interval-time' }}
+            value={Number(store['flush.ms'])}
+            plusBtnProps={{ name: 'flush-ms' }}
+            minusBtnProps={{ name: 'flush-ms' }}
             id='interval-time-unit-dropdown'
             toggleId='interval-time-unit-dropdowntoggle'
             name='interval-time-unit'

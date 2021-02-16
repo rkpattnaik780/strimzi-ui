@@ -14,6 +14,7 @@ import { kebabToCamel } from './utils';
 import { TopicContext } from 'Contexts/Topic';
 import { SizeTimeFormGroup } from '../Common/SizeTimeFormGroup/SizeTimeFormGroup.patternfly';
 import { useTranslation } from 'react-i18next';
+import { kebabToDotSeparated } from './CleanupSection.patternfly';
 
 const timeStampOptions: IDropdownOption[] = [
   { key: 'create-time', value: 'CreateTime', isDisabled: false },
@@ -34,28 +35,40 @@ const MessageSection: React.FC = () => {
 
   const { t } = useTranslation();
 
+  // const handleTouchSpinInputChange = (
+  //   event: React.FormEvent<HTMLInputElement>
+  // ) => {
+  //   const { name: fieldName, value } = event.currentTarget;
+  //   updateStore(kebabToCamel(fieldName), value);
+  // };
+
   const handleTouchSpinInputChange = (
     event: React.FormEvent<HTMLInputElement>
   ) => {
     const { name: fieldName, value } = event.currentTarget;
-    updateStore(kebabToCamel(fieldName), value);
+    updateStore(kebabToDotSeparated(fieldName), Number(value));
   };
 
   const handleTouchSpinPlus = (event) => {
     const { name } = event.currentTarget;
-    const fieldName = kebabToCamel(name);
-    updateStore(fieldName, store[fieldName] + 1);
+    const fieldName = kebabToDotSeparated(name);
+    updateStore(fieldName, Number(store[fieldName]) + 1);
   };
 
   const handleTouchSpinMinus = (event) => {
     const { name } = event.currentTarget;
-    const fieldName = kebabToCamel(name);
-    updateStore(fieldName, store[fieldName] - 1);
+    const fieldName = kebabToDotSeparated(name);
+    updateStore(fieldName, Number(store[fieldName]) - 1);
   };
 
   const onDropdownChange = (value: string, event) => {
     const { name: fieldName } = event.target;
     updateStore(kebabToCamel(fieldName), value);
+  };
+
+  const onDropdownChange2 = (value: string, event) => {
+    const { name: fieldName } = event.target;
+    updateStore(kebabToDotSeparated(fieldName), value);
   };
 
   return (
@@ -77,13 +90,13 @@ const MessageSection: React.FC = () => {
           buttonAriaLabel='More info for maximum message size field'
         >
           <SizeTimeFormGroup
-            inputName='max-message-size'
+            inputName='max-message-bytes'
             onChange={handleTouchSpinInputChange}
             onPlus={handleTouchSpinPlus}
             onMinus={handleTouchSpinMinus}
-            value={store.maxMessageSize}
-            plusBtnProps={{ name: 'max-message-size' }}
-            minusBtnProps={{ name: 'max-message-size' }}
+            value={Number(store['max.message.bytes'])}
+            plusBtnProps={{ name: 'max-message-bytes' }}
+            minusBtnProps={{ name: 'max-message-bytes' }}
             id='msg-section-units-dropdown'
             toggleId='msg-section-units-dropdowntoggle'
             ariaLabel='select unit from dropdown'
@@ -104,10 +117,10 @@ const MessageSection: React.FC = () => {
             id='msg-section-timestamp-dropdown'
             toggleId='msg-section-timestamp-dropdowntoggle'
             ariaLabel='select timestamp type from dropdown'
-            name='timestamp-type'
-            onSelectOption={onDropdownChange}
+            name='message-timestamp-type'
+            onSelectOption={onDropdownChange2}
             items={timeStampOptions}
-            value={store.timestampType}
+            value={store['message.timestamp.type'] || ""}
           />
         </FormGroupWithPopover>
         <FormGroupWithPopover
@@ -118,13 +131,13 @@ const MessageSection: React.FC = () => {
           buttonAriaLabel='More info for maximum message timestamp difference field'
         >
           <SizeTimeFormGroup
-            inputName='max-timestamp-diff'
+            inputName='message-timestamp-difference-max-ms'
             onChange={handleTouchSpinInputChange}
             onPlus={handleTouchSpinPlus}
             onMinus={handleTouchSpinMinus}
-            value={store.maxTimestampDiff}
-            plusBtnProps={{ name: 'max-timestamp-diff' }}
-            minusBtnProps={{ name: 'max-timestamp-diff' }}
+            value={Number(store['message.timestamp.difference.max.ms'])}
+            plusBtnProps={{ name: 'message-timestamp-difference-max-ms' }}
+            minusBtnProps={{ name: 'message-timestamp-difference-max-ms' }}
             id='msg-section-timestamp-diff-units-dropdown'
             toggleId='msg-section-timestamp-diff-units-dropdowntoggle'
             ariaLabel='select unit from dropdown'
@@ -146,9 +159,9 @@ const MessageSection: React.FC = () => {
             toggleId='msg-section-compression-type-dropdowntoggle'
             ariaLabel='select timestamp type from dropdown'
             name='compression-type'
-            onSelectOption={onDropdownChange}
+            onSelectOption={onDropdownChange2}
             items={messageCompressionTypes}
-            value={store.compressionType}
+            value={store['compression.type'] || ""}
           />
         </FormGroupWithPopover>
       </Form>

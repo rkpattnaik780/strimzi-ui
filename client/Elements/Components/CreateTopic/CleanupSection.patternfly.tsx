@@ -18,6 +18,10 @@ import { TopicContext } from 'Contexts/Topic';
 import { SizeTimeFormGroup } from '../Common/SizeTimeFormGroup/SizeTimeFormGroup.patternfly';
 import { useTranslation } from 'react-i18next';
 
+export const kebabToDotSeparated = (val: string) : string => {
+  return val.replaceAll('-','.');
+}
+
 export const CleanupSection: React.FC = () => {
   const { store, updateStore } = React.useContext(TopicContext);
 
@@ -27,20 +31,20 @@ export const CleanupSection: React.FC = () => {
     event: React.FormEvent<HTMLInputElement>
   ) => {
     const { name, value } = event.currentTarget;
-    const fieldName = kebabToCamel(name);
+    const fieldName = kebabToDotSeparated(name);
     updateStore(fieldName, Number(value));
   };
 
   const handleTouchSpinPlus = (event) => {
     const { name } = event.currentTarget;
-    const fieldName = kebabToCamel(name);
-    updateStore(fieldName, store[fieldName] + 1);
+    const fieldName = kebabToDotSeparated(name);
+    updateStore(fieldName, Number(store[fieldName]) + 1);
   };
 
   const handleTouchSpinMinus = (event) => {
     const { name } = event.currentTarget;
-    const fieldName = kebabToCamel(name);
-    updateStore(fieldName, store[fieldName] - 1);
+    const fieldName = kebabToDotSeparated(name);
+    updateStore(fieldName, Number(store[fieldName]) - 1);
   };
 
   const onDropdownChange = (value: string, event) => {
@@ -49,8 +53,7 @@ export const CleanupSection: React.FC = () => {
   };
 
   const handleCheckboxSelect = (checked: boolean, event) => {
-    const { name } = event.currentTarget;
-    const fieldName = kebabToCamel(name);
+    const { name: fieldName } = event.currentTarget;
     updateStore(fieldName, checked);
   };
 
@@ -74,13 +77,13 @@ export const CleanupSection: React.FC = () => {
           buttonAriaLabel='More info for delete retention field'
         >
           <SizeTimeFormGroup
-            inputName='delete-retention-time'
+            inputName='delete.retention.ms'
             onChange={handleTouchSpinInputChange}
             onPlus={handleTouchSpinPlus}
             onMinus={handleTouchSpinMinus}
-            value={store.deleteRetentionTime}
-            plusBtnProps={{ name: 'delete-retention-time' }}
-            minusBtnProps={{ name: 'delete-retention-time' }}
+            value={Number(store['delete.retention.ms'])}
+            plusBtnProps={{ name: 'delete-retention-ms' }}
+            minusBtnProps={{ name: 'delete-retention-ms' }}
             id='delete-retention-unit'
             toggleId='delete-retention-dropdowntoggle'
             ariaLabel='select unit from dropdown'
@@ -98,13 +101,13 @@ export const CleanupSection: React.FC = () => {
           buttonAriaLabel='More info for minimum cleanable ratio field'
         >
           <NumberInput
-            inputName='min-ratio'
+            inputName='min.cleanable.dirty.ratio'
             onChange={handleTouchSpinInputChange}
             onPlus={handleTouchSpinPlus}
             onMinus={handleTouchSpinMinus}
-            value={store.minRatio}
-            plusBtnProps={{ name: 'min-ratio' }}
-            minusBtnProps={{ name: 'min-ratio' }}
+            value={Number(store['min.cleanable.dirty.ratio'])}
+            plusBtnProps={{ name: 'min-cleanable-dirty-ratio' }}
+            minusBtnProps={{ name: 'min-cleanable-dirty-ratio' }}
           />
         </FormGroupWithPopover>
         <FormGroupWithPopover
@@ -115,13 +118,13 @@ export const CleanupSection: React.FC = () => {
           buttonAriaLabel='More info for minimum compaction log time field'
         >
           <SizeTimeFormGroup
-            inputName='min-lag-time'
+            inputName='min-compaction-lag-ms'
             onChange={handleTouchSpinInputChange}
             onPlus={handleTouchSpinPlus}
             onMinus={handleTouchSpinMinus}
-            value={store.minLagTime}
-            plusBtnProps={{ name: 'min-lag-time' }}
-            minusBtnProps={{ name: 'min-lag-time' }}
+            value={Number(store['min.compaction.lag.ms'])}
+            plusBtnProps={{ name: 'min-compaction-lag-ms' }}
+            minusBtnProps={{ name: 'min-compaction-lag-ms' }}
             id='min-lag-unit'
             toggleId='min-lag-unit-dropdowntoggle'
             ariaLabel='select unit from dropdown'
@@ -139,13 +142,13 @@ export const CleanupSection: React.FC = () => {
           buttonAriaLabel='More info for segment time field'
         >
           <SizeTimeFormGroup
-            inputName='segment-time'
+            inputName='segment-ms'
             onChange={handleTouchSpinInputChange}
             onPlus={handleTouchSpinPlus}
             onMinus={handleTouchSpinMinus}
-            value={store.segmentTime}
-            plusBtnProps={{ name: 'segment-time' }}
-            minusBtnProps={{ name: 'segment-time' }}
+            value={Number(store['segment.ms'])}
+            plusBtnProps={{ name: 'segment-ms' }}
+            minusBtnProps={{ name: 'segment-ms' }}
             id='segment-time-unit'
             toggleId='segment-time-unit-dropdowntoggle'
             ariaLabel='select unit from dropdown'
@@ -163,13 +166,13 @@ export const CleanupSection: React.FC = () => {
           buttonAriaLabel='More info for segment jitter time field'
         >
           <SizeTimeFormGroup
-            inputName='jitter-time'
+            inputName='segment.jitter.ms'
             onChange={handleTouchSpinInputChange}
             onPlus={handleTouchSpinPlus}
             onMinus={handleTouchSpinMinus}
-            value={store.jitterTime}
-            plusBtnProps={{ name: 'jitter-time' }}
-            minusBtnProps={{ name: 'jitter-time' }}
+            value={Number(store['segment.jitter.ms'])}
+            plusBtnProps={{ name: 'segment.jitter.ms' }}
+            minusBtnProps={{ name: 'segment.jitter.ms' }}
             id='jitter-time-unit'
             toggleId='jitter-time-unit-dropdowntoggle'
             ariaLabel='select unit from dropdown'
@@ -187,13 +190,13 @@ export const CleanupSection: React.FC = () => {
           buttonAriaLabel='More info for file delete delay field'
         >
           <SizeTimeFormGroup
-            inputName='delete-delay'
+            inputName='file-delete-delay-ms'
             onChange={handleTouchSpinInputChange}
             onPlus={handleTouchSpinPlus}
             onMinus={handleTouchSpinMinus}
-            value={store.deleteDelay}
-            plusBtnProps={{ name: 'delete-delay' }}
-            minusBtnProps={{ name: 'delete-delay' }}
+            value={Number(store['file.delete.delay.ms'])}
+            plusBtnProps={{ name: 'file-delete-delay-ms' }}
+            minusBtnProps={{ name: 'file-delete-delay-ms' }}
             id='delete-delay-unit'
             toggleId='delete-delay-unit-dropdowntoggle'
             ariaLabel='select unit from dropdown'
@@ -211,12 +214,12 @@ export const CleanupSection: React.FC = () => {
           buttonAriaLabel='More info for preallocation field'
         >
           <Checkbox
-            isChecked={store.logPreallocation}
+            isChecked={Boolean(store.preallocate)}
             label='Allow preallocation of log segment files'
             aria-label='log segment files pre allocation'
             id='log-preallocation'
             onChange={handleCheckboxSelect}
-            name='log-preallocation'
+            name='preallocate'
           />
         </FormGroupWithPopover>
       </Form>

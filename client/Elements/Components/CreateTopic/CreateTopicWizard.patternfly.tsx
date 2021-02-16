@@ -26,6 +26,7 @@ import './CreateTopicWizard.patternfly.css';
 import { TopicAdvanceConfig } from './TopicAdvanceConfig.patternfly';
 import { DefaultApi, NewTopicInput } from 'OpenApi/api';
 import { useHistory } from 'react-router';
+import { TopicContext, TopicContextProvider } from 'Contexts/Topic';
 
 interface ICreateTopicWizard {
   setIsCreateTopic?: (value: boolean) => void;
@@ -76,20 +77,22 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
 
   const saveTopic = () => {
     //Object may change based on schema
-    const topic: NewTopicInput = {
-      name: topicNameInput,
-      settings: {
-        numPartitions: partitionTouchspinValue,
-        replicationFactor: replicationFactorTouchspinValue,
-      }
-    };
+    // const topic: NewTopicInput = {
+    //   name: topicNameInput,
+    //   settings: {
+    //     numPartitions: partitionTouchspinValue,
+    //     replicationFactor: replicationFactorTouchspinValue,
+    //   }
+    // };
 
-    new DefaultApi().createTopic(topic).then(res => {
-      if(res.status === 200){
-        setAlertVisible(true);
-      }
-      closeWizard();
-    })
+    // console.log(store);
+
+    // new DefaultApi().createTopic(topic).then(res => {
+    //   if(res.status === 200){
+    //     setAlertVisible(true);
+    //   }
+    //   closeWizard();
+    // })
   };
 
   const steps: WizardStep[] = [
@@ -182,7 +185,9 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
         <>
           <Divider />
           <PageSection variant={PageSectionVariants.light}>
-            <TopicAdvanceConfig isCreate={true} saveTopic={saveTopic} />
+            <TopicContextProvider>
+              <TopicAdvanceConfig isCreate={true} saveTopic={saveTopic} />
+            </TopicContextProvider>
           </PageSection>
         </>
       ) : (

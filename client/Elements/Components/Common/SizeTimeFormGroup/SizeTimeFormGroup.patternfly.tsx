@@ -21,7 +21,7 @@ export interface SizeTimeFormGroup extends NumberInputProps {
   /** id of dropdown toggle button */
   toggleId: string;
   /** id of dropdown element */
-  dropdownValue: string;
+  dropdownValue?: string;
   /** name attribute of dropdown element */
   name: string;
   /** handler method of dropdown */
@@ -96,7 +96,7 @@ export const SizeTimeFormGroup: React.FC<SizeTimeFormGroup> = ({
           onSelectOption={onSelectOption}
           items={getItemsForType(type)}
           name={name}
-          value={dropdownValue}
+          value={dropdownValue || ""}
         />
       </FlexItem>
     </Flex>
