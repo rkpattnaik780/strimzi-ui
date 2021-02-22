@@ -49,7 +49,7 @@ export const CleanupSection: React.FC = () => {
 
   const onDropdownChange = (value: string, event) => {
     const { name: fieldName } = event.target;
-    updateStore(kebabToCamel(fieldName), value);
+    updateStore(kebabToDotSeparated(fieldName), value);
   };
 
   const handleCheckboxSelect = (checked: boolean, event) => {
@@ -89,8 +89,8 @@ export const CleanupSection: React.FC = () => {
             ariaLabel='select unit from dropdown'
             onSelectOption={onDropdownChange}
             type='time'
-            name='delete-retention-unit'
-            dropdownValue={store.deleteRetentionUnit}
+            name='delete-retention-ms-unit'
+            dropdownValue={store['delete.retention.ms.unit']}
           />
         </FormGroupWithPopover>
         <FormGroupWithPopover
@@ -130,8 +130,8 @@ export const CleanupSection: React.FC = () => {
             ariaLabel='select unit from dropdown'
             onSelectOption={onDropdownChange}
             type='time'
-            name='min-lag-unit'
-            dropdownValue={store.minLagUnit}
+            name='min-compaction-lag-ms-unit'
+            dropdownValue={store['min.compaction.lag.ms.unit']}
           />
         </FormGroupWithPopover>
         <FormGroupWithPopover
@@ -154,8 +154,8 @@ export const CleanupSection: React.FC = () => {
             ariaLabel='select unit from dropdown'
             onSelectOption={onDropdownChange}
             type='time'
-            name='segment-time-unit'
-            dropdownValue={store.segmentTimeUnit}
+            name='segment-ms-unit'
+            dropdownValue={store['segment.ms.unit']}
           />
         </FormGroupWithPopover>
         <FormGroupWithPopover
@@ -166,7 +166,7 @@ export const CleanupSection: React.FC = () => {
           buttonAriaLabel='More info for segment jitter time field'
         >
           <SizeTimeFormGroup
-            inputName='segment.jitter.ms'
+            inputName='segment-jitter-ms'
             onChange={handleTouchSpinInputChange}
             onPlus={handleTouchSpinPlus}
             onMinus={handleTouchSpinMinus}
@@ -178,8 +178,8 @@ export const CleanupSection: React.FC = () => {
             ariaLabel='select unit from dropdown'
             onSelectOption={onDropdownChange}
             type='time'
-            name='jitter-time-unit'
-            dropdownValue={store.jitterTimeUnit}
+            name='segment-jitter-ms-unit'
+            dropdownValue={store['segment.jitter.ms.unit']}
           />
         </FormGroupWithPopover>
         <FormGroupWithPopover
@@ -202,8 +202,8 @@ export const CleanupSection: React.FC = () => {
             ariaLabel='select unit from dropdown'
             onSelectOption={onDropdownChange}
             type='time'
-            name='delete-delay-unit'
-            dropdownValue={store.deleteDelayUnit}
+            name='file-delete-delay-ms-unit'
+            dropdownValue={store['file.delete.delay.ms.unit']}
           />
         </FormGroupWithPopover>
         <FormGroupWithPopover

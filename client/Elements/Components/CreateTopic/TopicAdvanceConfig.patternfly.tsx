@@ -83,63 +83,25 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
   const convertUnits = (topic2: AdvancedTopic2) => {
 
     let topic = {...topic2};
-    
-    if(topic['retention.ms']){
-      topic['retention.ms'] = String(Number(topic['retention.ms']) * unitsToMilliSecond[topic.retentionTimeUnit || "millisecond"])
+
+    for(const key in topic) {
+      if(key.split(".").pop() === "ms"){
+        topic[key] = String(Number(topic[key]) * unitsToMilliSecond[topic[`${key}.unit`] || "millisecond"])
+      }
+      if(key.split(".").pop() === "bytes"){
+        topic[key] = String(Number(topic[key]) * unitsToBytes[topic[`${key}.unit`] || "bytes"])
+      }
     }
-    if(topic['message.timestamp.difference.max.ms']){
-      topic['message.timestamp.difference.max.ms'] = String(Number(topic['message.timestamp.difference.max.ms']) * unitsToMilliSecond[topic.timestampDiffUnit || "millisecond"])
-    }
-    if(topic['delete.retention.ms']){
-      topic['delete.retention.ms'] = String(Number(topic['delete.retention.ms']) * unitsToMilliSecond[topic.deleteRetentionUnit || "millisecond"])
-    }
-    if(topic['min.compaction.lag.ms']){
-      topic['min.compaction.lag.ms'] = String(Number(topic['min.compaction.lag.ms']) * unitsToMilliSecond[topic.minLagUnit || "millisecond"])
-    }
-    if(topic['segment.ms']){
-      topic['segment.ms'] = String(Number(topic['segment.ms']) * unitsToMilliSecond[topic.segmentTimeUnit || "millisecond"])
-    }
-    if(topic['segment.jitter.ms']){
-      topic['segment.jitter.ms'] = String(Number(topic['segment.jitter.ms']) * unitsToMilliSecond[topic.jitterTimeUnit || "millisecond"])
-    }
-    if(topic['file.delete.delay.ms']){
-      topic['file.delete.delay.ms'] = String(Number(topic['file.delete.delay.ms']) * unitsToMilliSecond[topic.deleteDelayUnit || "millisecond"])
-    }
+
     if(topic['flush.messages']){
-      topic['flush.messages'] = String(Number(topic['flush.messages']) * unitsToMilliSecond[topic.intervalMessagesUnit || "millisecond"])
-    }
-    if(topic['flush.ms']){
-      topic['flush.ms'] = String(Number(topic['flush.ms']) * unitsToMilliSecond[topic.intervalTimeUnit || "millisecond"])
+      topic['flush.messages'] = String(Number(topic['flush.messages']) * unitsToMilliSecond[topic['flush.messages.unit'] || "millisecond"])
     }
 
-
-    if(topic['max.message.bytes']){
-      topic['max.message.bytes'] = String(Number(topic['max.message.bytes']) * unitsToBytes[topic.messageSizeUnit || "bytes"])
+    for(const key in topic) {
+      if(key.split(".").pop() === "unit"){
+        delete topic[key];
+      }
     }
-    if(topic['log.retention.bytes']){
-      topic['log.retention.bytes'] = String(Number(topic['log.retention.bytes']) * unitsToBytes[topic.retentionUnit || "bytes"])
-    }
-    if(topic['index.interval.bytes']){
-      topic['index.interval.bytes'] = String(Number(topic['index.interval.bytes']) * unitsToBytes[topic.indexIntervalUnit || "bytes"])
-    }
-    if(topic['segment.index.bytes']){
-      topic['segment.index.bytes'] = String(Number(topic['segment.index.bytes']) * unitsToBytes[topic.segmentIndexUnit || "bytes"])
-    }
-
-    delete topic.retentionTimeUnit;
-    delete topic.timestampDiffUnit;
-    delete topic.deleteRetentionUnit;
-    delete topic.minLagUnit;
-    delete topic.segmentTimeUnit;
-    delete topic.jitterTimeUnit;
-    delete topic.deleteDelayUnit;
-    delete topic.intervalMessagesUnit;
-    delete topic.intervalTimeUnit;
-
-    delete topic.messageSizeUnit;
-    delete topic.retentionUnit;
-    delete topic.indexIntervalUnit;
-    delete topic.segmentIndexUnit;
 
     console.log(topic);
     

@@ -38,7 +38,7 @@ export const IndexSection: React.FC = () => {
 
   const onDropdownChange = (value: string, event) => {
     const { name: fieldName } = event.target;
-    updateStore(kebabToCamel(fieldName), value);
+    updateStore(kebabToDotSeparated(fieldName), value);
   };
 
   return (
@@ -70,11 +70,11 @@ export const IndexSection: React.FC = () => {
             plusBtnProps={{ name: 'index-interval-bytes' }}
             minusBtnProps={{ name: 'index-interval-bytes' }}
             toggleId='index-interval-unit-dropdowntoggle'
-            name='index-interval-unit'
+            name='index-interval-bytes-unit'
             ariaLabel='select unit from dropdown'
             onSelectOption={onDropdownChange}
             type='memory'
-            dropdownValue={store.indexIntervalUnit}
+            dropdownValue={store['index.interval.bytes.unit']}
           />
         </FormGroupWithPopover>
         <FormGroupWithPopover
@@ -94,11 +94,11 @@ export const IndexSection: React.FC = () => {
             plusBtnProps={{ name: 'segment-index-bytes' }}
             minusBtnProps={{ name: 'segment-index-bytes' }}
             toggleId='segment-index-unit-dropdowntoggle'
-            name='segment-index-unit'
+            name='segment-index-bytes-unit'
             ariaLabel='select duration from dropdown'
             onSelectOption={onDropdownChange}
             type='memory'
-            dropdownValue={store.segmentIndexUnit}
+            dropdownValue={store['segment.index.bytes.unit']}
           />
         </FormGroupWithPopover>
       </Form>

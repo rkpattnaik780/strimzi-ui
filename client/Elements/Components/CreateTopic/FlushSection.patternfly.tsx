@@ -38,7 +38,7 @@ export const FlushSection: React.FC = () => {
 
   const onDropdownChange = (value: string, event) => {
     const { name: fieldName } = event.target;
-    updateStore(kebabToCamel(fieldName), value);
+    updateStore(kebabToDotSeparated(fieldName), value);
   };
 
   return (
@@ -69,11 +69,11 @@ export const FlushSection: React.FC = () => {
             minusBtnProps={{ name: 'flush-messages' }}
             id='interval-messages-unit-dropdown'
             toggleId='interval-messages-unit-dropdowntoggle'
-            name='interval-messages-unit'
+            name='flush-messages-unit'
             ariaLabel='select unit from dropdown'
             onSelectOption={onDropdownChange}
             type='time'
-            dropdownValue={store.intervalMessagesUnit}
+            dropdownValue={store['flush.messages.unit']}
           />
         </FormGroupWithPopover>
         <FormGroupWithPopover
@@ -93,10 +93,10 @@ export const FlushSection: React.FC = () => {
             minusBtnProps={{ name: 'flush-ms' }}
             id='interval-time-unit-dropdown'
             toggleId='interval-time-unit-dropdowntoggle'
-            name='interval-time-unit'
+            name='flush-ms-unit'
             ariaLabel='select unit from dropdown'
             onSelectOption={onDropdownChange}
-            dropdownValue={store.intervalTimeUnit}
+            dropdownValue={store['flush.ms.unit']}
             type='time'
           />
         </FormGroupWithPopover>

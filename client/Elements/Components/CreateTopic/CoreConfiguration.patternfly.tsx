@@ -73,7 +73,7 @@ const CoreConfiguration: React.FC = () => {
 
   const onDropdownChange = (value: string, event) => {
     const { name: fieldName } = event.target;
-    updateStore(kebabToCamel(fieldName), value);
+    updateStore(kebabToDotSeparated(fieldName), value);
   };
 
   const onDropdownChange2 = (value: string, event) => {
@@ -185,8 +185,8 @@ const CoreConfiguration: React.FC = () => {
             minusBtnProps={{ name: 'retention-ms' }}
             id='core-config-retention-time-unit'
             toggleId='core-config-retention-dropdowntoggle'
-            name='retention-time-unit'
-            dropdownValue={store.retentionTimeUnit}
+            name='retention-ms-unit'
+            dropdownValue={store['retention.ms.unit']}
             ariaLabel='select unit from dropdown'
             onSelectOption={onDropdownChange}
             type='time'

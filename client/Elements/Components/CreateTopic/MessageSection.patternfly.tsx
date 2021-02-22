@@ -63,7 +63,7 @@ const MessageSection: React.FC = () => {
 
   const onDropdownChange = (value: string, event) => {
     const { name: fieldName } = event.target;
-    updateStore(kebabToCamel(fieldName), value);
+    updateStore(kebabToDotSeparated(fieldName), value);
   };
 
   const onDropdownChange2 = (value: string, event) => {
@@ -102,8 +102,8 @@ const MessageSection: React.FC = () => {
             ariaLabel='select unit from dropdown'
             onSelectOption={onDropdownChange}
             type='memory'
-            name='message-size-unit'
-            dropdownValue={store.messageSizeUnit}
+            name='max-message-bytes-unit'
+            dropdownValue={store['max.message.bytes.unit']}
           />
         </FormGroupWithPopover>
         <FormGroupWithPopover
@@ -143,8 +143,8 @@ const MessageSection: React.FC = () => {
             ariaLabel='select unit from dropdown'
             onSelectOption={onDropdownChange}
             type='time'
-            name='timestamp-diff-unit'
-            dropdownValue={store.timestampDiffUnit}
+            name='message-timestamp-difference-max-ms-unit'
+            dropdownValue={store['message.timestamp.difference.max.ms.unit']}
           />
         </FormGroupWithPopover>
         <FormGroupWithPopover

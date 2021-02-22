@@ -30,7 +30,7 @@ const LogSection: React.FC = () => {
 
   const onDropdownChange = (value: string, event) => {
     const { name: fieldName } = event.target;
-    updateStore(kebabToCamel(fieldName), value);
+    updateStore(kebabToDotSeparated(fieldName), value);
   };
 
   const onDropdownChange2 = (value: string, event) => {
@@ -106,8 +106,8 @@ const LogSection: React.FC = () => {
             ariaLabel='select unit from dropdown'
             onSelectOption={onDropdownChange}
             type='memory'
-            name='retention-unit'
-            dropdownValue={store.retentionUnit}
+            name='log-retention-bytes-unit'
+            dropdownValue={store['log.retention.bytes.unit.unit']}
           />
         </FormGroupWithPopover>
 
@@ -131,8 +131,8 @@ const LogSection: React.FC = () => {
             ariaLabel='select unit from dropdown'
             onSelectOption={onDropdownChange}
             type='memory'
-            name='segment-unit'
-            dropdownValue={store.segmentUnit}
+            name='log-segment-bytes-unit'
+            dropdownValue={store['log.segment.bytes.unit']}
           />
         </FormGroupWithPopover>
       </Form>
