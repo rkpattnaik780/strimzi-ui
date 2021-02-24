@@ -7,7 +7,7 @@ import React, { ReactElement } from 'react';
 import { render, RenderResult } from '@testing-library/react';
 import { Given, When, Then, Fusion } from 'jest-cucumber-fusion';
 import { TopicAdvanceConfig } from './TopicAdvanceConfig.patternfly';
-import { TopicContextProvider } from 'Contexts/Topic';
+import { TopicContextProvider } from '../../../Contexts/Topic';
 
 let renderResult: RenderResult;
 let component: ReactElement;

@@ -16,3 +16,7 @@ export const kebabToCamel = function (kebabCase: string): string {
 
   return camelCased.join('');
 };
+
+export const kebabToDotSeparated = (val: string) : string => {
+  return val.replaceAll('-','.');
+}

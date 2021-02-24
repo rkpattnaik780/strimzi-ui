@@ -16,7 +16,7 @@ import {
   Divider,
   TextContent,
   TextVariants,
-  Text,
+  Text
 } from '@patternfly/react-core';
 import '../CreateTopic/CreateTopicWizard.patternfly.css';
 
@@ -27,6 +27,8 @@ import { ReplicationSection } from './ReplicationSection.patternfly';
 import { IndexSection } from './IndexSection.patternfly';
 import { FlushSection } from './FlushSection.patternfly';
 import { CleanupSection } from './CleanupSection.patternfly';
+import { AdvancedTopic, TopicContext } from '../../../Contexts/Topic';
+import { DefaultApi, NewTopicInput } from '../../../OpenApi/api';
 
 interface ITopicAdvanceConfig {
   isCreate: boolean;
@@ -38,6 +40,97 @@ export const TopicAdvanceConfig: React.FunctionComponent<ITopicAdvanceConfig> = 
   saveTopic,
 }) => {
   const actionText = isCreate === true ? 'Create Topic' : 'Save';
+  const { store } = React.useContext(TopicContext);
+
+  const unitsToMilliSecond = {
+    "milliseconds": 1,
+    "millisecond": 1,
+    "second": 1000,
+    "day": 86400000,
+    "month": 2592000000,
+    "year": 31536000000
+  };
+
+  interface keyValPair {
+    key: string;
+    value: string;
+  }
+
+  const formatTopicRequest = (topic: AdvancedTopic): NewTopicInput => {
+    const { name, numPartitions, replicationFactor, ...rest } = topic;
+
+    let responseBody: keyValPair[] = []
+
+    for (const key in rest) {
+      if (key) {
+        responseBody.push({
+          key,
+          value: rest[key].toString()
+        })
+      }
+
+    }
+
+    return {
+      name,
+      settings: {
+        numPartitions: Number(numPartitions),
+        replicationFactor: Number(replicationFactor),
+        config: responseBody
+      }
+    }
+
+
+  }
+
+  const convertUnits = (topic2: AdvancedTopic) => {
+
+    let topic = { ...topic2 };
+
+    for (const key in topic) {
+      if (key.split(".").pop() === "ms") {
+        topic[key] = String(Number(topic[key]) * unitsToMilliSecond[topic[`${key}.unit`] || "millisecond"])
+      }
+      if (key.split(".").pop() === "bytes") {
+        topic[key] = String(Number(topic[key]) * unitsToBytes[topic[`${key}.unit`] || "bytes"])
+      }
+    }
+
+    if (topic['flush.messages']) {
+      topic['flush.messages'] = String(Number(topic['flush.messages']) * unitsToMilliSecond[topic['flush.messages.unit'] || "millisecond"])
+    }
+
+    for (const key in topic) {
+      if (key.split(".").pop() === "unit") {
+        delete topic[key];
+      }
+    }
+
+    console.log(topic);
+
+    return topic;
+  }
+
+  const unitsToBytes = {
+    'bytes': 1,
+    'kilobytes': 1000,
+    'megabytes': 1000000,
+    'gigabytes': 1000000000,
+    'terabytes': 1000000000000,
+  }
+
+  // TODO: Handle saving advanced topics at a higher level
+
+  const saveTopic2 = () => {
+    const x = convertUnits(store);
+    console.log(formatTopicRequest(x));
+    new DefaultApi().createTopic(formatTopicRequest(x)).then(res => {
+      if (res.status === 200) {
+        console.log(res.data);
+      }
+      // closeWizard();
+    })
+  }
 
   return (
     <>

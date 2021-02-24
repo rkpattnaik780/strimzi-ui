@@ -25,6 +25,7 @@ import { StepReplicas } from './StepReplicas.patternfly';
 import './CreateTopicWizard.patternfly.css';
 import { TopicAdvanceConfig } from './TopicAdvanceConfig.patternfly';
 import { DefaultApi, NewTopicInput } from '../../../OpenApi/api';
+import { TopicContextProvider } from '../../../Contexts/Topic';
 
 interface ICreateTopicWizard {
   setIsCreateTopic?: (value: boolean) => void;
@@ -180,7 +181,9 @@ export const CreateTopicWizard: React.FC<ICreateTopicWizard> = ({
         <>
           <Divider />
           <PageSection variant={PageSectionVariants.light}>
-            <TopicAdvanceConfig isCreate={true} saveTopic={saveTopic} />
+            <TopicContextProvider>
+              <TopicAdvanceConfig isCreate={true} saveTopic={saveTopic} />
+            </TopicContextProvider>
           </PageSection>
         </>
       ) : (

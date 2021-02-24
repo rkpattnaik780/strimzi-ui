@@ -4,7 +4,7 @@
  */
 
 import { AxiosResponse } from 'axios';
-import { AdvancedTopic2 } from '../Contexts/Topic';
+import { AdvancedTopic } from '../Contexts/Topic';
 import { DefaultApi, Topic, TopicSettings, TopicsList } from '../OpenApi/api';
 
 export const getTopics = async (): Promise<TopicsList> => {
@@ -15,13 +15,13 @@ export const getTopics = async (): Promise<TopicsList> => {
 
 export const getTopicDetail = async (
   topicName: string
-): Promise<AdvancedTopic2> => {
+): Promise<AdvancedTopic> => {
   const { data } = await new DefaultApi().getTopic(topicName);
 
   return convertTopicResponse(data);
 };
 
-const convertTopicResponse = (topic: Topic): AdvancedTopic2 => {
+const convertTopicResponse = (topic: Topic): AdvancedTopic => {
   const topicObj: any = {};
 
   topic.config?.forEach((config) => {
