@@ -24,7 +24,7 @@ const initialState: AdvancedTopic = {
   'compression.type': 'Producer',
   'log.cleanup.policy': 'Delete',
   'log.retention.bytes': '-1',
-  'log.retention.bytes.unit': 'byte',
+  'log.retention.bytes.unit': 'bytes',
   'log.segment.bytes': '78',
   'log.segment.bytes.unit': 'bytes',
   'unclean.leader.election.enable': 'false',
