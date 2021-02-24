@@ -39,7 +39,7 @@ const CoreConfiguration: React.FC = () => {
     updateStore(kebabToDotSeparated(fieldName), Number(value));
   };
 
-  const handleTouchSpinInputChange2 = (
+  const handleTouchSpinInputChangeCamelCase = (
     event: React.FormEvent<HTMLInputElement>
   ) => {
     const { name: fieldName, value } = event.currentTarget;
@@ -52,7 +52,7 @@ const CoreConfiguration: React.FC = () => {
     updateStore(fieldName, Number(store[fieldName]) + 1);
   };
 
-  const handleTouchSpinPlus2 = (event) => {
+  const handleTouchSpinPlusCamelCase = (event) => {
     const { name } = event.currentTarget;
     const fieldName = kebabToCamel(name);
     updateStore(fieldName, Number(store[fieldName]) + 1);
@@ -64,18 +64,13 @@ const CoreConfiguration: React.FC = () => {
     updateStore(fieldName, Number(store[fieldName]) - 1);
   };
 
-  const handleTouchSpinMinus2 = (event) => {
+  const handleTouchSpinMinusCamelCase = (event) => {
     const { name } = event.currentTarget;
     const fieldName = kebabToCamel(name);
     updateStore(fieldName, Number(store[fieldName]) - 1);
   };
 
   const onDropdownChange = (value: string, event) => {
-    const { name: fieldName } = event.target;
-    updateStore(kebabToDotSeparated(fieldName), value);
-  };
-
-  const onDropdownChange2 = (value: string, event) => {
     const { name: fieldName } = event.target;
     updateStore(kebabToDotSeparated(fieldName), value);
   };
@@ -124,9 +119,9 @@ const CoreConfiguration: React.FC = () => {
           <NumberInput
             id='create-topic-partitions'
             inputName='num-partitions'
-            onChange={handleTouchSpinInputChange2}
-            onPlus={handleTouchSpinPlus2}
-            onMinus={handleTouchSpinMinus2}
+            onChange={handleTouchSpinInputChangeCamelCase}
+            onPlus={handleTouchSpinPlusCamelCase}
+            onMinus={handleTouchSpinMinusCamelCase}
             value={Number(store.numPartitions)}
             plusBtnProps={{ name: 'num-partitions' }}
             minusBtnProps={{ name: 'num-partitions' }}
@@ -141,9 +136,9 @@ const CoreConfiguration: React.FC = () => {
         >
           <NumberInput
             inputName='replicas'
-            onChange={handleTouchSpinInputChange2}
-            onPlus={handleTouchSpinPlus2}
-            onMinus={handleTouchSpinMinus2}
+            onChange={handleTouchSpinInputChangeCamelCase}
+            onPlus={handleTouchSpinPlusCamelCase}
+            onMinus={handleTouchSpinMinusCamelCase}
             value={Number(store.replicationFactor)}
             plusBtnProps={{ name: 'replication-factor' }}
             minusBtnProps={{ name: 'replication-factor' }}
